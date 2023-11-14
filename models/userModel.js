@@ -33,7 +33,7 @@ const userSchema = new mongoose.Schema(
     coverImage: {
       type: String,
       default:
-        'https://res.cloudinary.com/luuphuchung2810/image/upload/v1692523649/h-network/ykurk9srzzvzawflwbwc.jpg',
+        'https://res.cloudinary.com/luuphuchung2810/image/upload/v1693559646/h-network/bolpd4dva4msvhc72uyv.jpg',
     },
     role: { type: String, default: 'user' },
     gender: { type: String, default: '' },

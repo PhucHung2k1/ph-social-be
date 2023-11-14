@@ -169,13 +169,17 @@ const authCtrl = {
     try {
       const { email, password } = req.body;
 
-      const user = await Users.findOne({ email }).populate(
+      const user = await Users.findOne({
+        $or: [{ email }, { username: email }],
+      }).populate(
         'followers following',
         'avatar username fullname followers following'
       );
 
       if (!user)
-        return res.status(400).json({ msg: 'This email doest not exists!' });
+        return res
+          .status(400)
+          .json({ msg: 'This email or username doest not exists!' });
 
       const isMatch = await bcrypt.compare(password, user.password);
       if (!isMatch)
