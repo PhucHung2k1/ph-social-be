@@ -87,6 +87,22 @@ const commentCtrl = {
   },
   deleteComment: async (req, res) => {
     try {
+      // const comment = await Comments.findOneAndDelete({
+      //   _id: req.params.id,
+      //   $or: [{ user: req.user._id }, { postUserId: req.user._id }],
+      // });
+      // console.log(
+      //   '🚀 ~ file: commentCtrl.js:94 ~ deleteComment: ~ comment:',
+      //   comment
+      // );
+      // if (comment && comment.postId) {
+      //   await Posts.findOneAndUpdate(
+      //     { _id: comment.postId },
+      //     {
+      //       $pull: { comments: req.params.id },
+      //     }
+      //   );
+      // }
       const comment = await Comments.findOneAndDelete({
         _id: req.params.id,
         $or: [{ user: req.user._id }, { postUserId: req.user._id }],

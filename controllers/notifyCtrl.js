@@ -62,10 +62,15 @@ const notifyCtrl = {
   },
   deleteAllNotifies: async (req, res) => {
     try {
+      const { user } = req.body;
       const notifies = await Notifies.deleteMany({ recipients: req.user._id });
 
       return res.json({ notifies });
     } catch (err) {
+      console.log(
+        '🚀 ~ file: notifyCtrl.js:69 ~ deleteAllNotifies: ~ err:',
+        err
+      );
       return res.status(500).json({ msg: err.message });
     }
   },

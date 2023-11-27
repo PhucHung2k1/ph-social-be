@@ -187,7 +187,7 @@ const postCrl = {
       const posts = await Posts.find({ user: req.params.id })
         .sort('-createdAt')
         .populate({
-          path: 'comments',
+          path: 'comments likes',
           populate: {
             path: 'user',
             select: '-password',
@@ -196,6 +196,22 @@ const postCrl = {
         .populate({
           path: 'user',
           select: '-password',
+        })
+        .populate({
+          path: 'comments',
+          populate: [
+            {
+              path: 'likes',
+              populate: {
+                path: 'user',
+                select: '-password',
+              },
+            },
+            {
+              path: 'user',
+              select: '-password',
+            },
+          ],
         });
       res.json({ posts, result: posts.length });
     } catch (err) {
