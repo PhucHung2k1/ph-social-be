@@ -6,12 +6,32 @@ const cookieParser = require('cookie-parser');
 const SocketServer = require('./socketServer');
 const { PeerServer } = require('peer');
 const { Configuration, OpenAIApi } = require('openai');
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const API_KEY = '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';
 const config = new Configuration({
   apiKey: API_KEY,
 });
 const app = express();
 const openai = new OpenAIApi(config);
+
+//stripe
+app.post('/create-checkout-session', async (req, res) => {
+  const { items, email } = req.body;
+
+  const session = await stripe.checkout.sessions.create({
+    payment_method_types: ['card'],
+    line_items: items.map((item) => ({
+      price: item.price_id,
+      quantity: item.quantity,
+    })),
+    mode: 'payment',
+    success_url: 'http://localhost:3000/success', // Điều hướng khi thanh toán thành công
+    cancel_url: 'http://localhost:3000/cancel', // Điều hướng khi thanh toán bị hủy
+    customer_email: email,
+  });
+
+  res.json({ id: session.id });
+});
 
 app.use(express.json());
 app.use(cors());

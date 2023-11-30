@@ -27,4 +27,7 @@ router.get('/get_users', authCtrl.getAllUsers);
 router.post('/check_token', authCtrl.checkTokenValidity);
 
 router.post('/reset_password', authCtrl.resetPassword);
+
+// admin
+router.post('/authenticate/login', authCtrl.loginAdmin);
 module.exports = router;

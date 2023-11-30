@@ -233,6 +233,24 @@ const userCtrl = {
       return res.status(500).json({ msg: err.message });
     }
   },
+  updateVipUser: async (req, res) => {
+    try {
+      const updatedUser = await Users.findOneAndUpdate(
+        { _id: req.params.id },
+        { $set: { role: 'vip' } },
+        { new: true } // Trả về dữ liệu mới sau khi cập nhật
+      );
+
+      if (updatedUser) {
+        console.log(`This user is already role VIP`);
+      } else {
+        console.log(`Not found user!`);
+      }
+      res.json({ msg: 'Update Role To Vip User Successful', updatedUser });
+    } catch (err) {
+      return res.status(500).json({ msg: err.message });
+    }
+  },
 };
 module.exports = userCtrl;
 const removeDuplicates = (arr, key) => {
