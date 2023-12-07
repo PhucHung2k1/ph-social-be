@@ -50,7 +50,7 @@ const messageCtrl = {
 
       await newMessage.save();
 
-      res.json({ msg: 'Create Success!' });
+      res.json({ msg: 'Create Success!', newMessage });
     } catch (err) {
       return res.status(500).json({ msg: err.message });
     }

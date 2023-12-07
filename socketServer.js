@@ -32,12 +32,12 @@ const SocketServer = (socket) => {
         });
       }
 
-      if(data.call){
-          const callUser = users.find(user => user.id === data.call)
-          if(callUser){
-              users = EditData(users, callUser.id, null)
-              socket.to(`${callUser.socketId}`).emit('callerDisconnect')
-          }
+      if (data.call) {
+        const callUser = users.find((user) => user.id === data.call);
+        if (callUser) {
+          users = EditData(users, callUser.id, null);
+          socket.to(`${callUser.socketId}`).emit('callerDisconnect');
+        }
       }
     }
 
@@ -146,6 +146,7 @@ const SocketServer = (socket) => {
 
   // Notification
   socket.on('createNotify', (msg) => {
+    console.log('🚀 ~ file: socketServer.js:149 ~ socket.on ~ msg:', msg);
     const client = users.find((user) => msg.recipients.includes(user.id));
     client && socket.to(`${client.socketId}`).emit('createNotifyToClient', msg);
   });
@@ -159,6 +160,11 @@ const SocketServer = (socket) => {
     const user = users.find((item) => item.id === msg.recipient);
     user && socket.to(`${user.socketId}`).emit('addMessageToClient', msg);
   });
+  socket.on('removeMessage', (msg) => {
+    const user = users.find((item) => item.id === msg.recipient);
+    user && socket.to(`${user.socketId}`).emit('removeMessageToClient', msg);
+  });
+
   // Check User Online / Offline
   socket.on('checkUserOnline', (data) => {
     const following = users.filter((user) =>
